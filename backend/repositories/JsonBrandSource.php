@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace app\repositories;
 
@@ -6,18 +6,36 @@ use Yii;
 
 class JsonBrandSource implements BrandSourceInterface 
 {
- public function fetchByBrand(string $brandName): array
+    public function fetchByBrand(string $brandName): array
     {
         $filePath = Yii::getAlias('@app/runtime/product.json');
+        
         if (!file_exists($filePath)) {
             return [];
         }
 
         $jsonData = file_get_contents($filePath);
-        $products = json_decode($jsonData, true);
+        if ($jsonData === false) {
+            return [];
+        }
 
-        return array_filter($products, function ($product) use ($brandName) {
-            return strcasecmp($product['brand_name'] ?? '', $brandName) === 0;
+        $products = json_decode($jsonData, true);
+        
+        if (!is_array($products)) {
+            return [];
+        }
+
+        // Фильтруем товары по бренду 
+        $filtered = array_filter($products, function ($product) use ($brandName) {
+            $productBrand = $product['brand_name'] ?? '';
+            return strcasecmp($productBrand, $brandName) === 0;
         });
+        
+        foreach ($filtered as &$product) {
+            $product['source'] = 'json';
+        }
+
+     
+        return array_values($filtered);
     }
 }

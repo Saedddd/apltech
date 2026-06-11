@@ -11,7 +11,7 @@ class Product extends ActiveRecord
         return '{{%products}}';
     }
 
-    public function validateRules(): array
+    public function rules(): array
     {
         return [
             [['name', 'price'], 'required'],
@@ -27,7 +27,7 @@ class Product extends ActiveRecord
 
     public function validName($attribute, $params = null)
     {
-        if (stripos($this->$attribute, "test") !== false) {
+        if (!empty($this->$attribute) && stripos($this->$attribute, "test") !== false) {
             $this->addError($attribute, "поле name не должно содержать слово 'test'");
         }
     }

@@ -10,12 +10,15 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    
+    // Упрощаем контейнер - убираем лишние определения
     'container' => [
         'definitions' => [
-            'app\repositories\ProductRepositoryInterface' => 'app\repositories\ProductRepository',
-            'app\services\ProductService' => 'app\services\ProductService',
+            // Если у вас есть интерфейс, оставьте его
+            // 'app\repositories\BrandSourceInterface' => 'app\repositories\DbBrandSource',
         ],
     ],
+    
     'components' => [
         'request' => [
             'cookieValidationKey' => 'super-secret-validation-key',
@@ -28,13 +31,16 @@ $config = [
             'enableSession' => false, 
             'loginUrl' => null,
         ],
-        'jwt' => [
-            'class' => \sizeg\jwt\Jwt::class,
-            'key' => 'secret_key_with_at_least_32_characters_long_12345',
-            'jwtValidationData' => [
-                'class' => \sizeg\jwt\JwtValidationData::class,
-            ],
-        ],
+        
+        // Временно закомментируйте JWT для тестирования
+        // 'jwt' => [
+        //     'class' => \sizeg\jwt\Jwt::class,
+        //     'key' => 'secret_key_with_at_least_32_characters_long_12345',
+        //     'jwtValidationData' => [
+        //         'class' => \sizeg\jwt\JwtValidationData::class,
+        //     ],
+        // ],
+        
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,

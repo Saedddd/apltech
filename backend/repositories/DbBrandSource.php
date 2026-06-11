@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace app\repositories;
 
@@ -8,9 +8,16 @@ class DbBrandSource implements BrandSourceInterface
 {
     public function fetchByBrand(string $brandName): array
     {
+        
         return Product::find()
-            ->where(['brand_name' => $brandName])
+            ->where(['like', 'brand_name', $brandName, false])
             ->asArray()
             ->all();
+
+            
+            foreach ($products as &$product) {
+                   $product['source'] = 'database';
+               }
     }
+
 }

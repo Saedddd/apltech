@@ -49,4 +49,13 @@ return array (
       '@yii/symfonymailer' => $vendorDir . '/yiisoft/yii2-symfonymailer/src',
     ),
   ),
+  'sizeg/yii2-jwt' => 
+  array (
+    'name' => 'sizeg/yii2-jwt',
+    'version' => '2.0.2.0',
+    'alias' => 
+    array (
+      '@sizeg/jwt' => $vendorDir . '/sizeg/yii2-jwt',
+    ),
+  ),
 );

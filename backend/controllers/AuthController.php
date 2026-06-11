@@ -42,7 +42,7 @@ class AuthController extends ApiController
 
         return [
             'status' => 'success',
-            'token' => $token->toString(),
+            'token' => (string)$token,      
             'user' => ['id' => $user->getId(), 'username' => $user->username]
         ];
     }

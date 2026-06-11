@@ -4,7 +4,9 @@ namespace app\repositories;
 
 interface BrandSourceInterface
 {
-    @return array
-     
-    public function fetchByBrand(@string $brand): array;
+    /**
+     * @param string $brandName
+     * @return array
+     */
+    public function fetchByBrand(string $brandName): array;
 }

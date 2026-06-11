@@ -1,8 +1,8 @@
 <?php return array(
     'root' => array(
         'name' => 'yiisoft/yii2-app-basic',
-        'pretty_version' => '2.0.54',
-        'version' => '2.0.54.0',
+        'pretty_version' => '1.0.0+no-version-set',
+        'version' => '1.0.0.0',
         'reference' => NULL,
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
@@ -207,6 +207,15 @@
             'install_path' => __DIR__ . '/../guzzlehttp/psr7',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'lcobucci/jwt' => array(
+            'pretty_version' => '3.3.3',
+            'version' => '3.3.3.0',
+            'reference' => 'c1123697f6a2ec29162b82f170dd4a491f524773',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../lcobucci/jwt',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'myclabs/deep-copy' => array(
             'pretty_version' => '1.13.4',
@@ -529,6 +538,15 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
+        'sizeg/yii2-jwt' => array(
+            'pretty_version' => 'v2.0.2',
+            'version' => '2.0.2.0',
+            'reference' => '40fc06e8eb7fd4251639a45a0710663fc8a9558b',
+            'type' => 'yii2-extension',
+            'install_path' => __DIR__ . '/../sizeg/yii2-jwt',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'symfony/browser-kit' => array(
             'pretty_version' => 'v5.4.45',
             'version' => '5.4.45.0',
@@ -749,8 +767,8 @@
             'dev_requirement' => false,
         ),
         'yiisoft/yii2-app-basic' => array(
-            'pretty_version' => '2.0.54',
-            'version' => '2.0.54.0',
+            'pretty_version' => '1.0.0+no-version-set',
+            'version' => '1.0.0.0',
             'reference' => NULL,
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
