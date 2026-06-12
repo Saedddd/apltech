@@ -45,6 +45,3 @@ export { default as Chip } from 'primevue/chip'
 
 // Утилиты
 export { default as Skeleton } from 'primevue/skeleton'
-export { default as Tooltip } from 'primevue/tooltip'
-export { default as useToast } from 'primevue/usetoast'
-export { default as useConfirm } from 'primevue/useconfirm'

@@ -1,1 +1,1 @@
-export { default as ProductsPage } from './ui/ProductsPage.vue'
+export { default } from './ui/ProductsPage.vue'
