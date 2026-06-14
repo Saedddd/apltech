@@ -7,6 +7,7 @@ export interface Product {
   brand_name: string
   price: number | string
   rrp_price: number
+  source?: 'database' | 'json'
   status: 1 | 2
 }
 
@@ -26,10 +27,8 @@ export interface BrandMinMaxItem {
   source?: string
 }
 
-export interface BrandMinMaxResponse {
-  min: BrandMinMaxItem
-  max: BrandMinMaxItem
-}
+// Правильный тип для ответа API
+export type BrandMinMaxResponse = [{ min: BrandMinMaxItem }, { max: BrandMinMaxItem }]
 
 export interface BrandMinMaxArrayResponse extends Array<
   { min: BrandMinMaxItem } | { max: BrandMinMaxItem }

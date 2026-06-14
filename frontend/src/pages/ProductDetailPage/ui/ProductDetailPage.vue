@@ -53,13 +53,18 @@
 
         <template #footer>
           <div class="flex gap-2">
-            <Button
-              label="Редактировать"
-              icon="pi pi-pencil"
-              severity="warning"
-              @click="router.push(`/product/edit/${product.id}`)"
-            />
-            <Button label="Удалить" severity="danger" @click="confirmDelete" />
+            <template v-if="product.source !== 'json'">
+              <Button
+                label="Редактировать"
+                icon="pi pi-pencil"
+                severity="warning"
+                @click="router.push(`/product/edit/${product.id}`)"
+              />
+              <Button label="Удалить" icon="pi pi-trash" severity="danger" @click="confirmDelete" />
+            </template>
+            <span v-else class="text-gray-500 text-sm">
+              ⓘ Этот товар из внешнего источника, редактирование недоступно
+            </span>
           </div>
         </template>
       </Card>

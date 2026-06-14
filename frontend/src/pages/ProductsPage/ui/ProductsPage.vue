@@ -42,17 +42,24 @@
           <Column header="Действия" style="width: 120px">
             <template #body="{ data }">
               <div class="flex gap-1">
-                <Button severity="info" text rounded @click="router.push(`/product/${data.id}`)"
-                  >👀</Button
-                >
-                <Button
-                  severity="warning"
-                  text
-                  rounded
-                  @click="router.push(`/product/edit/${data.id}`)"
-                  >✎</Button
-                >
-                <Button severity="danger" text rounded @click="confirmDelete(data)">❌</Button>
+                <!-- Просмотр - доступен для всех -->
+                <Button severity="info" text rounded @click="router.push(`/product/${data.id}`)">
+                  👀
+                </Button>
+
+                <template v-if="data.source !== 'json'">
+                  <Button
+                    severity="warning"
+                    text
+                    rounded
+                    @click="router.push(`/product/edit/${data.id}`)"
+                  >
+                    ✎
+                  </Button>
+                  <Button severity="danger" text rounded @click="confirmDelete(data)"> ❌ </Button>
+                </template>
+
+                <span v-else class="text-gray-400 text-xs ml-1" title="Внешний источник">json</span>
               </div>
             </template>
           </Column>

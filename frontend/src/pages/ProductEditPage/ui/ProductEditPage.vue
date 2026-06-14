@@ -12,11 +12,11 @@
       <Message severity="error" :text="error" />
     </div>
 
-    <Card v-else-if="product">
+    <Card v-else-if="productForForm">
       <template #title>Редактирование товара</template>
       <template #content>
         <ProductForm
-          :initial-data="product"
+          :initial-data="productForForm"
           :loading="updating"
           @submit="handleUpdate"
           @cancel="router.back()"
@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useProductStore } from '@features/product/model/productStore'
@@ -43,6 +43,20 @@ const productStore = useProductStore()
 const updating = ref(false)
 
 const { currentProduct: product, loading, error } = storeToRefs(productStore)
+
+// Преобразуем данные продукта для формы
+const productForForm = computed<ProductFormData | null>(() => {
+  if (!product.value) return null
+
+  return {
+    name: product.value.name,
+    category_name: product.value.category_name || '',
+    brand_name: product.value.brand_name || '',
+    price: typeof product.value.price === 'number' ? product.value.price : 0,
+    rrp_price: product.value.rrp_price || 0,
+    status: product.value.status || 1,
+  }
+})
 
 const handleUpdate = async (data: ProductFormData) => {
   updating.value = true

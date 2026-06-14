@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { productApi } from '../api/productApi'
@@ -23,7 +24,8 @@ export const useBrandStore = defineStore('brand', () => {
     error.value = null
     brandResult.value = null
     try {
-      const response = await productApi.getBrandMinMax(brandName)
+      const response = (await productApi.getBrandMinMax(brandName)) as Record<string, any>[]
+
       const minData = response[0] && 'min' in response[0] ? response[0].min : null
       const maxData = response[1] && 'max' in response[1] ? response[1].max : null
 

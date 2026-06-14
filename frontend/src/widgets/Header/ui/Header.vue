@@ -16,7 +16,7 @@
           size="small"
         />
         <div v-else class="flex items-center gap-2">
-          <Badge :value="username" severity="info" />
+          <Badge :value="username || ''" severity="info" />
           <Button label="Logout" @click="logout" text size="small" />
         </div>
       </div>
