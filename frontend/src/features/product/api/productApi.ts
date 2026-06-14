@@ -14,7 +14,9 @@ export const productApi = {
   },
 
   create: async (data: ProductFormData): Promise<Product> => {
+    console.log('API create called with:', data) // Отладка
     const response = await axiosInstance.post(ENDPOINTS.PRODUCT_CREATE, data)
+    console.log('API create response:', response.data) // Отладка
     return response.data
   },
 
@@ -24,7 +26,7 @@ export const productApi = {
   },
 
   delete: async (id: number): Promise<void> => {
-    await axiosInstance.delete(ENDPOINTS.PRODUCT(id))
+    await axiosInstance.delete(ENDPOINTS.PRODUCT_DELETE(id))
   },
 
   getBrandMinMax: async (brandName: string): Promise<BrandMinMaxResponse> => {

@@ -25,18 +25,22 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
 import Button from 'primevue/button'
 import { useToast } from 'primevue/usetoast'
-// import { authApi } from '../api/authApi'
+import { authApi } from '../api/authApi'
+import { useAuthStore } from '../model/authStore'
 
 const emit = defineEmits<{
-  success: [user: { id: number; username: string }]
+  success: [user: { id: number; username: string; token: string }]
   cancel: []
 }>()
 
+const router = useRouter()
 const toast = useToast()
+const authStore = useAuthStore()
 const username = ref('')
 const password = ref('')
 const loading = ref(false)
@@ -59,8 +63,9 @@ const handleLogin = async () => {
       password: password.value,
     })
 
-    localStorage.setItem('token', response.token)
-    localStorage.setItem('username', response.user.username)
+    console.log('Login response:', response)
+
+    authStore.setAuth(response.token, response.user.username)
 
     toast.add({
       severity: 'success',
@@ -70,11 +75,14 @@ const handleLogin = async () => {
     })
 
     emit('success', response.user)
+
+    router.push('/products')
   } catch (error: any) {
+    console.error('Login error:', error)
     toast.add({
       severity: 'error',
       summary: 'Ошибка входа',
-      detail: error.response?.data?.error || 'Неверный логин или пароль',
+      detail: error.response?.data?.error || error.message || 'Неверный логин или пароль',
       life: 5000,
     })
   } finally {

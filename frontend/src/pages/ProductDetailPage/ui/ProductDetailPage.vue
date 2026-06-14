@@ -25,26 +25,28 @@
         </template>
 
         <template #content>
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="font-semibold text-gray-600">ID:</label>
-              <p>{{ product.id }}</p>
-            </div>
-            <div>
-              <label class="font-semibold text-gray-600">Категория:</label>
-              <p>{{ product.category_name || '-' }}</p>
-            </div>
-            <div>
-              <label class="font-semibold text-gray-600">Бренд:</label>
-              <p>{{ product.brand_name || '-' }}</p>
-            </div>
-            <div>
-              <label class="font-semibold text-gray-600">РРЦ:</label>
-              <p>{{ formatPrice(product.rrp_price) }}</p>
-            </div>
-            <div>
-              <label class="font-semibold text-gray-600">Цена:</label>
-              <p class="text-xl text-green-600 font-bold">{{ formatPrice(product.price) }}</p>
+          <div class="space-y-3">
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="font-semibold text-gray-600">ID:</label>
+                <p>{{ product.id }}</p>
+              </div>
+              <div>
+                <label class="font-semibold text-gray-600">Категория:</label>
+                <p>{{ product.category_name || '-' }}</p>
+              </div>
+              <div>
+                <label class="font-semibold text-gray-600">Бренд:</label>
+                <p>{{ product.brand_name || '-' }}</p>
+              </div>
+              <div>
+                <label class="font-semibold text-gray-600">Рекомендованная цена:</label>
+                <p>{{ formatPrice(product.rrp_price) }}</p>
+              </div>
+              <div>
+                <label class="font-semibold text-gray-600">Цена:</label>
+                <p class="text-xl text-green-600 font-bold">{{ formatPrice(product.price) }}</p>
+              </div>
             </div>
           </div>
         </template>
@@ -53,6 +55,7 @@
           <div class="flex gap-2">
             <Button
               label="Редактировать"
+              icon="pi pi-pencil"
               severity="warning"
               @click="router.push(`/product/edit/${product.id}`)"
             />
@@ -67,8 +70,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
 import { useProductStore } from '@features/product/model/productStore'
 import { Card, Button, Badge, ProgressSpinner, Message, ConfirmDialog } from '@shared/ui/primevue'
 import { useConfirm } from 'primevue/useconfirm'
@@ -81,9 +85,7 @@ const confirm = useConfirm()
 const toast = useToast()
 const productStore = useProductStore()
 
-const product = computed(() => productStore.currentProduct)
-const loading = computed(() => productStore.loading)
-const error = computed(() => productStore.error)
+const { currentProduct: product, loading, error } = storeToRefs(productStore)
 
 const confirmDelete = () => {
   confirm.require({

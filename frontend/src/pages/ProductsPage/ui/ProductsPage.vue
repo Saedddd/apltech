@@ -42,14 +42,17 @@
           <Column header="Действия" style="width: 120px">
             <template #body="{ data }">
               <div class="flex gap-1">
-                <Button severity="info" text rounded @click="router.push(`/product/${data.id}`)" />
+                <Button severity="info" text rounded @click="router.push(`/product/${data.id}`)"
+                  >👀</Button
+                >
                 <Button
                   severity="warning"
                   text
                   rounded
                   @click="router.push(`/product/edit/${data.id}`)"
-                />
-                <Button severity="danger" text rounded @click="confirmDelete(data)" />
+                  >✎</Button
+                >
+                <Button severity="danger" text rounded @click="confirmDelete(data)">❌</Button>
               </div>
             </template>
           </Column>
@@ -62,8 +65,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, computed } from 'vue'
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
 import { useProductStore } from '@features/product/model/productStore'
 import { Card, Button, DataTable, Column, Tag, ConfirmDialog } from '@shared/ui/primevue'
 import { useConfirm } from 'primevue/useconfirm'
@@ -75,8 +79,7 @@ const confirm = useConfirm()
 const toast = useToast()
 const productStore = useProductStore()
 
-const products = computed(() => productStore.products)
-const loading = computed(() => productStore.loading)
+const { products, loading } = storeToRefs(productStore)
 
 const confirmDelete = (product: any) => {
   confirm.require({
@@ -85,8 +88,12 @@ const confirmDelete = (product: any) => {
     acceptLabel: 'Да, удалить',
     rejectLabel: 'Отмена',
     acceptClass: 'p-button-danger',
+    rejectClass: 'p-button-secondary',
     accept: async () => {
       const success = await productStore.deleteProduct(product.id)
+
+      confirm.close()
+
       if (success) {
         toast.add({
           severity: 'success',
@@ -94,7 +101,19 @@ const confirmDelete = (product: any) => {
           detail: `Товар "${product.name}" удален`,
           life: 3000,
         })
+
+        await productStore.fetchProducts()
+      } else {
+        toast.add({
+          severity: 'error',
+          summary: 'Ошибка',
+          detail: 'Не удалось удалить товар',
+          life: 3000,
+        })
       }
+    },
+    reject: () => {
+      confirm.close()
     },
   })
 }

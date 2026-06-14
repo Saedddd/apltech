@@ -26,11 +26,19 @@ export const useProductStore = defineStore('product', () => {
   const fetchProductById = async (id: number) => {
     loading.value = true
     error.value = null
+    currentProduct.value = null
     try {
-      currentProduct.value = await productApi.getById(id)
+      const data = await productApi.getById(id)
+      currentProduct.value = data
+      return { success: true, data }
     } catch (err: any) {
-      error.value = err.message || 'Ошибка загрузки товара'
-      console.error(err)
+      if (err.response?.status === 404) {
+        error.value = `Товар с ID ${id} не найден`
+      } else {
+        error.value = err.response?.data?.message || err.message || 'Ошибка загрузки товара'
+      }
+      console.error('fetchProductById error:', err)
+      return { success: false, error: error.value }
     } finally {
       loading.value = false
     }
@@ -42,11 +50,11 @@ export const useProductStore = defineStore('product', () => {
     try {
       const newProduct = await productApi.create(data)
       products.value.unshift(newProduct)
-      return true
+      return { success: true, data: newProduct, error: null }
     } catch (err: any) {
-      error.value = err.message || 'Ошибка создания товара'
+      error.value = err.response?.data?.message || err.message || 'Ошибка создания товара'
       console.error(err)
-      return false
+      return { success: false, data: null, error: error.value }
     } finally {
       loading.value = false
     }
@@ -60,11 +68,11 @@ export const useProductStore = defineStore('product', () => {
       const index = products.value.findIndex((p) => p.id === id)
       if (index !== -1) products.value[index] = updated
       if (currentProduct.value?.id === id) currentProduct.value = updated
-      return true
+      return { success: true, data: updated, error: null }
     } catch (err: any) {
-      error.value = err.message || 'Ошибка обновления товара'
+      error.value = err.response?.data?.message || err.message || 'Ошибка обновления товара'
       console.error(err)
-      return false
+      return { success: false, data: null, error: error.value }
     } finally {
       loading.value = false
     }
@@ -77,11 +85,11 @@ export const useProductStore = defineStore('product', () => {
       await productApi.delete(id)
       products.value = products.value.filter((p) => p.id !== id)
       if (currentProduct.value?.id === id) currentProduct.value = null
-      return true
+      return { success: true, error: null }
     } catch (err: any) {
-      error.value = err.message || 'Ошибка удаления товара'
+      error.value = err.response?.data?.message || err.message || 'Ошибка удаления товара'
       console.error(err)
-      return false
+      return { success: false, error: error.value }
     } finally {
       loading.value = false
     }

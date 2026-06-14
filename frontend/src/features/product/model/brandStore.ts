@@ -21,9 +21,9 @@ export const useBrandStore = defineStore('brand', () => {
   const fetchBrandMinMax = async (brandName: string) => {
     loading.value = true
     error.value = null
+    brandResult.value = null
     try {
       const response = await productApi.getBrandMinMax(brandName)
-      // API возвращает массив [{min: {...}}, {max: {...}}]
       const minData = response[0] && 'min' in response[0] ? response[0].min : null
       const maxData = response[1] && 'max' in response[1] ? response[1].max : null
 
@@ -33,11 +33,14 @@ export const useBrandStore = defineStore('brand', () => {
           max: maxData,
         }
       } else {
-        brandResult.value = null
         error.value = 'Неверный формат ответа от сервера'
       }
     } catch (err: any) {
-      error.value = err.response?.data?.error || err.message || 'Бренд не найден'
+      if (err.response?.status === 404) {
+        error.value = `Товары для бренда "${brandName}" не найдены`
+      } else {
+        error.value = err.response?.data?.error || err.message || 'Ошибка поиска'
+      }
       brandResult.value = null
       console.error(err)
     } finally {
