@@ -11,7 +11,7 @@ services:
           name: apltech-db
           property: connectionString
       - key: CORS_ORIGINS
-        value: https://apltech-front-kappa.vercel.app
+        value: https://apltech-front-eight.vercel.app
       - key: COOKIE_VALIDATION_KEY
         generateValue: true
 

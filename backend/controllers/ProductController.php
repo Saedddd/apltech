@@ -36,7 +36,7 @@ class ProductController extends ApiController
       public function actionOptions()
     {
         Yii::$app->response->statusCode = 200;
-        Yii::$app->response->headers->set('Access-Control-Allow-Origin', 'https://apltech-front-kappa.vercel.app');
+        Yii::$app->response->headers->set('Access-Control-Allow-Origin', 'https://apltech-front-eight.vercel.app');
         Yii::$app->response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
         Yii::$app->response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
         Yii::$app->response->headers->set('Access-Control-Allow-Credentials', 'true');

@@ -2,7 +2,7 @@
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    header('Access-Control-Allow-Origin: https://apltech-front-kappa.vercel.app');
+    header('Access-Control-Allow-Origin: https://apltech-front-eight.vercel.app');
     header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
     header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
     header('Access-Control-Allow-Credentials: true');
