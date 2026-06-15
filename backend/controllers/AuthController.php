@@ -4,46 +4,72 @@ namespace app\controllers;
 
 use Yii;
 use app\models\User;
-use yii\web\BadRequestHttpException;
-use yii\web\UnauthorizedHttpException;
+use yii\web\Response;
+use Firebase\JWT\JWT;
+
 
 class AuthController extends ApiController
 {
-    public function actionLogin(): array
+    public $enableCsrfValidation = false;
+    
+    private $jwtSecret = 'your-secret-key-minimum-32-characters-long';
+    
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        
+        $behaviors['contentNegotiator'] = [
+            'class' => 'yii\filters\ContentNegotiator',
+            'formats' => [
+                'application/json' => Response::FORMAT_JSON,
+            ],
+        ];
+        
+        return $behaviors;
+    }
+    
+    public function actionLogin()
     {
         $params = Yii::$app->request->getBodyParams();
         $username = $params['username'] ?? null;
         $password = $params['password'] ?? null;
 
         if (!$username || !$password) {
-            throw new BadRequestHttpException('Укажите username и password');
+            Yii::$app->response->statusCode = 400;
+            return ['error' => 'Укажите username и password'];
         }
 
-        /** @var User $user */
         $user = User::findOne(['username' => $username]);
 
         if (!$user || !$user->validatePassword($password)) {
-            throw new UnauthorizedHttpException('Неверный логин или пароль');
+            Yii::$app->response->statusCode = 401;
+            return ['error' => 'Неверный логин или пароль'];
         }
 
-        /** @var \sizeg\jwt\Jwt $jwt */
-        $jwt = Yii::$app->jwt;
-        $signer = $jwt->getSigner('HS256');
-        $key = $jwt->getKey();
-        $now = new \DateTimeImmutable();
-
-        $token = $jwt->getBuilder()
-            ->issuedBy('http://localhost:8080')
-            ->permittedFor('http://localhost:5173')
-            ->issuedAt($now)
-            ->expiresAt($now->modify('+1 day'))
-            ->withClaim('uid', $user->getId())
-            ->getToken($signer, $key);
+       
+        $payload = [
+            'uid' => $user->id,
+            'username' => $user->username,
+            'iat' => time(),
+            'exp' => time() + 86400
+        ];
+        
+        $token = JWT::encode($payload, $this->jwtSecret, 'HS256');
 
         return [
-            'status' => 'success',
-            'token' => (string)$token,      
-            'user' => ['id' => $user->getId(), 'username' => $user->username]
+            'success' => true,
+            'token' => $token,
+            'user' => [
+                'id' => $user->id,
+                'username' => $user->username,
+            ]
         ];
+    }
+    
+    public function actionOptions()
+    {
+        Yii::$app->response->statusCode = 200;
+        Yii::$app->response->headers->set('Allow', 'POST, OPTIONS');
+        return [];
     }
 }

@@ -15,9 +15,7 @@ class DbBrandSource implements BrandSourceInterface
             ->all();
 
             
-            foreach ($products as &$product) {
-                   $product['source'] = 'database';
-               }
+          
     }
 
 }
