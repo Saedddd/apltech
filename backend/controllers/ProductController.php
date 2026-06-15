@@ -49,7 +49,7 @@ class ProductController extends ApiController
      */
     public function actionIndex(): array
     {
-        // 1. Получаем товары из БД
+        
         $dbProducts = \app\models\Product::find()->all();
         
         $result = [];
@@ -66,11 +66,11 @@ class ProductController extends ApiController
             ];
         }
         
-        // 2. Получаем товары из JSON файла
+     
         $jsonProducts = $this->getAllProductsFromJson();
         
         foreach ($jsonProducts as $product) {
-            // Проверяем, нет ли такого ID в БД (чтобы избежать дублей)
+           
             $exists = false;
             foreach ($result as $existing) {
                 if ($existing['id'] == $product['id']) {
@@ -93,7 +93,7 @@ class ProductController extends ApiController
             }
         }
         
-        // Сортируем по ID
+      
         usort($result, function($a, $b) {
             return $a['id'] - $b['id'];
         });
@@ -106,7 +106,7 @@ class ProductController extends ApiController
      */
     public function actionView($id): array
     {
-        // 1. Сначала ищем в БД
+        
         $product = \app\models\Product::findOne($id);
         
         if ($product) {
@@ -122,7 +122,7 @@ class ProductController extends ApiController
             ];
         }
         
-        // 2. Если не найден в БД, ищем в JSON файле
+        
         $jsonProduct = $this->findProductInJson($id);
         
         if ($jsonProduct) {
@@ -303,7 +303,7 @@ class ProductController extends ApiController
      */
     public function actionDelete($id): array
     {
-        // 1. Сначала ищем в БД
+      
         $product = \app\models\Product::findOne($id);
         
         if ($product) {
@@ -319,11 +319,11 @@ class ProductController extends ApiController
             }
         }
         
-        // 2. Если не найден в БД, ищем в JSON файле
+       
         $jsonProduct = $this->findProductInJson($id);
         
         if ($jsonProduct) {
-            // Удаляем из JSON файла
+           
             $deleted = $this->deleteProductFromJson($id);
             
             if ($deleted) {
