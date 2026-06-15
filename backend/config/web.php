@@ -6,45 +6,38 @@ $config = [
     'id' => 'api-app',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'aliases' => [
-        '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
-    ],
     
-    // Упрощаем контейнер - убираем лишние определения
-    'container' => [
-        'definitions' => [
-            // Если у вас есть интерфейс, оставьте его
-            // 'app\repositories\BrandSourceInterface' => 'app\repositories\DbBrandSource',
+    'as cors' => [
+        'class' => \yii\filters\Cors::class,
+        'cors' => [
+            'Origin' => explode(',', getenv('CORS_ORIGINS') ?: 'https://apltech-front-eight.vercel.app'),
+            'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+            'Access-Control-Request-Headers' => ['*'],
+            'Access-Control-Allow-Credentials' => true,
         ],
     ],
-    
+
     'components' => [
         'request' => [
-            'cookieValidationKey' => 'super-secret-validation-key',
+            'cookieValidationKey' => getenv('COOKIE_VALIDATION_KEY') ?: 'super-secret-key',
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ],
         ],
         'user' => [
             'identityClass' => 'app\models\User',
-            'enableSession' => false, 
+            'enableSession' => false,
             'loginUrl' => null,
         ],
-        
-        // Временно закомментируйте JWT для тестирования
-        // 'jwt' => [
-        //     'class' => \sizeg\jwt\Jwt::class,
-        //     'key' => 'secret_key_with_at_least_32_characters_long_12345',
-        //     'jwtValidationData' => [
-        //         'class' => \sizeg\jwt\JwtValidationData::class,
-        //     ],
-        // ],
-        
-        'urlManager' => [
+        'response' => [
+            'class' => 'yii\web\Response',
+            'format' => \yii\web\Response::FORMAT_JSON,
+            'charset' => 'UTF-8',
+        ],
+      'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'enableStrictParsing' => true,
+            'enableStrictParsing' => false,
             'rules' => [
                 'POST api/auth/login' => 'auth/login',
                 'GET api/products' => 'product/index',
@@ -52,8 +45,9 @@ $config = [
                 'POST api/product/create' => 'product/create',
                 'PATCH api/product/update/<id:\d+>' => 'product/update',
                 'GET api/product/brand/<name:\w+>' => 'product/brand',
+                'DELETE api/product/delete/<id:\d+>' => 'product/delete',
             ],
-        ],
+         ],
         'db' => $db,
     ],
 ];

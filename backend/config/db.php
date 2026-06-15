@@ -2,8 +2,8 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=apltech;port=3305', 
-    'username' => 'root',
-    'password' => '', 
+    'dsn' => 'pgsql:host=dpg-d8nubkj7uimc73a8ppng-a;dbname=if0_42183052_apltech;port=5432', 
+    'username' => 'if0_42183052',
+    'password' => 'enkDIQpdbEBLUWwze2TNDvgHe7qIBDD2', 
     'charset' => 'utf8',
 ];
