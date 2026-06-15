@@ -15,20 +15,16 @@ WORKDIR /var/www/html
 
 COPY . .
 
-# Создаем runtime папку
-RUN mkdir -p runtime && chmod 777 runtime
-
+RUN chmod -R 777 runtime
 
 RUN composer install --ignore-platform-reqs --no-dev --optimize-autoloader --no-interaction
 
 COPY nginx.conf /etc/nginx/sites-enabled/default
 RUN rm -rf /etc/nginx/sites-enabled/default.conf
 
-
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 80
-
 
 CMD ["/entrypoint.sh"]

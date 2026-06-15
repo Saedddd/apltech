@@ -10,6 +10,8 @@ class ProductService
 {
     public function getBrandMinMaxPrice(string $brandName): array
     {
+        $brandName = strtolower(trim($brandName));
+        
         $sources = [
             new DbBrandSource(),
             new JsonBrandSource(),
