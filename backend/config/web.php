@@ -34,28 +34,20 @@ $config = [
             'format' => \yii\web\Response::FORMAT_JSON,
             'charset' => 'UTF-8',
         ],
-        'urlManager' => [
+      'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'enableStrictParsing' => false, 
+            'enableStrictParsing' => false,
             'rules' => [
-                // OPTIONS
-                'OPTIONS api/<any:.+>' => 'api/options',
-                
-                // Auth
                 'POST api/auth/login' => 'auth/login',
-                
-                // Products
                 'GET api/products' => 'product/index',
-                'GET products' => 'product/index',  
                 'GET api/product/<id:\d+>' => 'product/view',
-                'GET product/<id:\d+>' => 'product/view', 
                 'POST api/product/create' => 'product/create',
                 'PATCH api/product/update/<id:\d+>' => 'product/update',
                 'GET api/product/brand/<name:\w+>' => 'product/brand',
                 'DELETE api/product/delete/<id:\d+>' => 'product/delete',
             ],
-        ],
+         ],
         'db' => $db,
     ],
 ];

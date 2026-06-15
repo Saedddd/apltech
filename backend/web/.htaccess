@@ -1,9 +1,4 @@
 RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . index.php [L]
-RewriteRule ^(.*)$ index.php [L]
-
-Header set Access-Control-Allow-Origin "https://apltech-front-kappa.vercel.app"
-Header set Access-Control-Allow-Methods "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-Header set Access-Control-Allow-Headers "Content-Type, Authorization"
