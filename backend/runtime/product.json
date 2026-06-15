@@ -1,0 +1,20 @@
+[
+    {
+        "id": 101,
+        "name": "Apple Watch",
+        "category_name": "Wearables",
+        "brand_name": "Apple",
+        "price": 399,
+        "rrp_price": 449,
+        "status": 1
+    },
+    {
+        "id": 102,
+        "name": "Apple iPad",
+        "category_name": "Tablets",
+        "brand_name": "Apple",
+        "price": 499,
+        "rrp_price": 599,
+        "status": 2
+    }
+]
