@@ -279,7 +279,7 @@ class Formatter extends Component
      *
      * ```
      * [
-     *     NumberFormatter::CURRENCY_SYMBOL => '₽',
+     *     NumberFormatter::CURRENCY_SYMBOL => '',
      * ]
      * ```
      *

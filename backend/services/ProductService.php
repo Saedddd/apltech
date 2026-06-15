@@ -10,7 +10,6 @@ class ProductService
 {
     public function getBrandMinMaxPrice(string $brandName): array
     {
-        // Подключаем наши две стратегии
         $sources = [
             new DbBrandSource(),
             new JsonBrandSource(),
@@ -45,7 +44,7 @@ class ProductService
             }
         }
 
-        // Возвращаем с указанием источника данных
+        // источникт
         return [
             [
                 "min" => [

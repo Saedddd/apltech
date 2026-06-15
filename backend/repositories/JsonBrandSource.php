@@ -25,7 +25,6 @@ class JsonBrandSource implements BrandSourceInterface
             return [];
         }
 
-        // Фильтруем товары по бренду 
         $filtered = array_filter($products, function ($product) use ($brandName) {
             $productBrand = $product['brand_name'] ?? '';
             return strcasecmp($productBrand, $brandName) === 0;
