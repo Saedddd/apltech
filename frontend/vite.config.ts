@@ -20,7 +20,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'https://apltech-backend.free.je',
+        target: 'https://apltech-backend.onrender.com/',
         changeOrigin: true,
         rewrite: (path) => path,
       },
