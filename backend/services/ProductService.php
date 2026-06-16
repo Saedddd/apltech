@@ -37,29 +37,34 @@ class ProductService
             $product['_calculated_price'] = $actualPrice;
             $product['_numeric_price'] = $numericPrice;
 
-            if ($minProduct === null || $numericPrice < $minProduct['_numeric_price']) {
+            
+            if ($minProduct === null) {
+                $minProduct = $product;
+            } elseif ($numericPrice < $minProduct['_numeric_price']) {
                 $minProduct = $product;
             }
 
-            if ($maxProduct === null || $numericPrice > $maxProduct['_numeric_price']) {
+          
+            if ($maxProduct === null) {
+                $maxProduct = $product;
+            } elseif ($numericPrice > $maxProduct['_numeric_price']) {
                 $maxProduct = $product;
             }
         }
 
-        // источникт
         return [
             [
                 "min" => [
                     "id" => (int)$minProduct['id'],
                     "price" => $minProduct['_calculated_price'],
-                    "source" => $this->getSource($minProduct)  // добавлено
+                    "source" => $this->getSource($minProduct)
                 ]
             ],
             [
                 "max" => [
                     "id" => (int)$maxProduct['id'],
                     "price" => $maxProduct['_calculated_price'],
-                    "source" => $this->getSource($maxProduct)  // добавлено
+                    "source" => $this->getSource($maxProduct)
                 ]
             ]
         ];

@@ -1,18 +1,35 @@
 #!/bin/sh
 
-SOURCE_FILE=$(find / -name "product.json" -path "*/runtime/product.json" 2>/dev/null | head -1)
+mkdir -p /var/www/html/runtime
 
-if [ -n "$SOURCE_FILE" ]; then
-    echo "Found product.json at: $SOURCE_FILE"
-    mkdir -p /var/www/html/runtime
-    cp "$SOURCE_FILE" /var/www/html/runtime/product.json
-    echo "Copied product.json to /var/www/html/runtime/"
-else
-    echo "Warning: product.json not found in repository"
-fi
 
+cat > /var/www/html/runtime/product.json << 'EOF'
+[
+    {
+        "id": 101,
+        "name": "Apple Watch",
+        "category_name": "Wearables",
+        "brand_name": "Apple",
+        "price": 399,
+        "rrp_price": 449,
+        "status": 1
+    },
+    {
+        "id": 102,
+        "name": "Apple iPad",
+        "category_name": "Tablets",
+        "brand_name": "Apple",
+        "price": "цена по запросу",
+        "rrp_price": 599,
+        "status": 2
+    }
+]
+EOF
+
+
+ls -la /var/www/html/runtime/
+cat /var/www/html/runtime/product.json
 
 # php yii migrate/up --interactive=0
-
 
 php-fpm -D && nginx -g 'daemon off;'
