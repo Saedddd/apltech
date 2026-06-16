@@ -1,5 +1,6 @@
 #!/bin/sh
 
+
 mkdir -p /var/www/html/runtime
 
 
@@ -19,16 +20,16 @@ cat > /var/www/html/runtime/product.json << 'EOF'
         "name": "Apple iPad",
         "category_name": "Tablets",
         "brand_name": "Apple",
-        "price": "цена по запросу",
+        "price": 0,
         "rrp_price": 599,
         "status": 2
     }
 ]
 EOF
 
+chown -R www-data:www-data /var/www/html/runtime
+chmod -R 775 /var/www/html/runtime
 
-ls -la /var/www/html/runtime/
-cat /var/www/html/runtime/product.json
 
 # php yii migrate/up --interactive=0
 
