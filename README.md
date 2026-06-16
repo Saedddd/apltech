@@ -1,11 +1,10 @@
-# 📦 Apltech — Product Management System
 
 > Тестовое задание для компании APLTECH  
 > REST API на Yii2 + мини-веб-приложение на Vue 3
 
 ---
 
-## 🚀 Демо
+## Ссылки
 
 | Ссылка | Описание |
 |--------|----------|
@@ -15,7 +14,7 @@
 
 ---
 
-## ⚙️ Бэкенд (Yii2 REST API)
+## Бэкенд (Yii2 REST API)
 
 ### Эндпоинты
 
@@ -35,7 +34,7 @@
 
 ---
 
-## 🖥️ Фронтенд (Vue 3)
+## Фронтенд (Vue 3)
 
 ### Страницы
 
@@ -55,16 +54,6 @@
 - Vite
 
 
-## 🧪 Локальный запуск
-
-### Бэкенд
-
-```bash
-cd backend
-composer install
-cp config/db.php.example config/db.php
-php yii migrate/up
-php -S localhost:8080 -t web
 
 ### Фронтенд
 
